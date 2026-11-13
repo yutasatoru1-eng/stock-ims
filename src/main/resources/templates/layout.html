@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(titre)">
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title th:text="'StockIMS - ' + ${titre}">StockIMS</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header th:fragment="header"><div class="wrap">
+  <a class="logo" th:href="@{/articles}">Stock<span>IMS</span></a>
+  <nav><a th:href="@{/articles}">Articles</a><a th:href="@{/articles/nouveau}">Nouvel article</a></nav>
+</div></header>
+<footer th:fragment="footer">StockIMS · ESITH · Spring Boot &amp; MySQL</footer>
+</body>
+</html>

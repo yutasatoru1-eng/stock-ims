@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Nouvel article')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main><div class="wrap">
+  <div class="top"><div><h1>Nouvel article</h1><p class="sub">Référence unique, 20 caractères maximum.</p></div></div>
+  <form class="card form" th:action="@{/articles}" th:object="${article}" method="post">
+    <div class="field"><label for="reference">Référence</label>
+      <input id="reference" th:field="*{reference}" placeholder="TIS-001">
+      <span class="err" th:errors="*{reference}"></span></div>
+    <div class="field"><label for="designation">Désignation</label>
+      <input id="designation" th:field="*{designation}" placeholder="Rouleau de coton">
+      <span class="err" th:errors="*{designation}"></span></div>
+    <div class="actions">
+      <button class="btn" type="submit">Enregistrer</button>
+      <a class="btn ghost" th:href="@{/articles}">Annuler</a>
+    </div>
+  </form>
+</div></main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

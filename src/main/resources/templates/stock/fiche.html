@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Stock')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main><div class="wrap">
+  <div class="top">
+    <div><h1 th:text="${article.designation}">Article</h1>
+      <p class="sub">Référence <span class="ref" th:text="${article.reference}"></span></p></div>
+    <a class="btn ghost" th:href="@{/articles}">← Retour aux articles</a>
+  </div>
+  <div class="grid">
+    <div class="card"><p class="sub">Stock disponible</p>
+      <p class="stat"><span th:text="${stock}">0</span> <small>unité(s)</small></p>
+      <p class="sub">Entrées − sorties enregistrées.</p></div>
+    <form class="card" method="post" th:object="${mouvement}" th:action="@{/stock/{id}/entrees(id=${article.id})}">
+      <p class="alert" th:each="erreur : ${#fields.globalErrors()}" th:text="${erreur}">Erreur</p>
+      <div class="field"><label for="quantite">Quantité</label>
+        <input id="quantite" type="number" step="1" min="1" th:field="*{quantite}" placeholder="ex. 20">
+        <span class="err" th:errors="*{quantite}"></span></div>
+      <p class="sub">La date du jour sera enregistrée.</p>
+      <div class="actions">
+        <button class="btn ok" type="submit">+ Entrée</button>
+        <button class="btn bad" type="submit" th:formaction="@{/stock/{id}/sorties(id=${article.id})}">− Sortie</button>
+      </div>
+    </form>
+  </div>
+</div></main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>

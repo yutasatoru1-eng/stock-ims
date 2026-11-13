@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head('Articles')}"></head>
+<body>
+<header th:replace="~{layout :: header}"></header>
+<main><div class="wrap">
+  <div class="top">
+    <div><h1>Les articles</h1><p class="sub" th:text="${#lists.size(articles)} + ' article(s) enregistré(s)'"></p></div>
+    <a class="btn" th:href="@{/articles/nouveau}">+ Ajouter un article</a>
+  </div>
+  <div class="card tbl">
+    <table th:unless="${#lists.isEmpty(articles)}">
+      <thead><tr><th>ID</th><th>Référence</th><th>Désignation</th><th>Stock</th><th></th></tr></thead>
+      <tbody>
+      <tr th:each="a : ${articles}" th:with="s=${stocks[a.id]}">
+        <td th:text="${a.id}">1</td>
+        <td class="ref" th:text="${a.reference}">TIS-001</td>
+        <td th:text="${a.designation}">Rouleau de coton</td>
+        <td><span class="badge" th:classappend="${s == 0} ? 'b-zero' : (${s < 10} ? 'b-low' : 'b-ok')" th:text="${s}">0</span></td>
+        <td style="text-align:right"><a class="btn ghost sm" th:href="@{/stock/{id}(id=${a.id})}">Voir le stock →</a></td>
+      </tr>
+      </tbody>
+    </table>
+    <p class="empty" th:if="${#lists.isEmpty(articles)}">Aucun article. Commencez par en ajouter un.</p>
+  </div>
+</div></main>
+<footer th:replace="~{layout :: footer}"></footer>
+</body>
+</html>
