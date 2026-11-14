@@ -73,30 +73,51 @@ Trajet d'une requête : **Navigateur → Controller → Service → Repository (
 
 ## Installation et lancement
 
-**1. Créer la base MySQL**
+**Prérequis :** Java 21+, MySQL 8, Git (ou téléchargement ZIP). Maven n'est pas nécessaire : le wrapper `mvnw` est inclus.
+
+**1. Récupérer le projet**
+
+```
+git clone https://github.com/VOTRE_USERNAME/stock-ims.git
+cd stock-ims
+```
+
+Ou : bouton vert **Code → Download ZIP** sur GitHub, puis extraire.
+
+**2. Créer la base MySQL** (dans MySQL Workbench ou le client `mysql`, connecté en root)
 
 ```sql
 CREATE DATABASE stock_ims CHARACTER SET utf8mb4;
-CREATE USER 'stock_app'@'localhost' IDENTIFIED BY 'VOTRE_MOT_DE_PASSE';
+CREATE USER 'stock_app'@'localhost' IDENTIFIED BY 'stock123';
 GRANT ALL PRIVILEGES ON stock_ims.* TO 'stock_app'@'localhost';
+FLUSH PRIVILEGES;
 ```
 
-**2. Créer le fichier `secret.properties`** à la racine du projet (à côté de `pom.xml`) :
+**3. Créer le fichier `secret.properties`** à la racine du projet (à côté de `pom.xml`), avec cette seule ligne :
 
 ```
-spring.datasource.password=VOTRE_MOT_DE_PASSE
+spring.datasource.password=stock123
 ```
 
-> Ce fichier n'est pas versionné (`.gitignore`) afin de ne pas publier le mot de passe.
+> Ce fichier n'est pas versionné (`.gitignore`) afin de ne pas publier de mot de passe. Il est lu grâce à `spring.config.import` dans `application.properties`.
 
-**3. Lancer l'application**
+**4. Lancer l'application** depuis un terminal ouvert dans le dossier du projet
 
 ```
 .\mvnw.cmd spring-boot:run      # Windows
 ./mvnw spring-boot:run          # macOS / Linux
 ```
 
-Puis ouvrir **http://localhost:8080**. Les tables sont créées automatiquement (`ddl-auto=update`).
+**5. Ouvrir http://localhost:8080** après le message `Started StockImsApplication`. Les tables `article`, `entree` et `sortie` sont créées automatiquement (`ddl-auto=update`).
+
+### Dépannage
+
+| Message | Solution |
+|---|---|
+| `Access denied for user 'stock_app'` | Vérifier le mot de passe dans `secret.properties` et l'emplacement du fichier (à côté de `pom.xml`). |
+| `Communications link failure` | Démarrer le service MySQL (`services.msc` sous Windows). |
+| `Unknown database 'stock_ims'` | Exécuter l'étape 2. |
+| `Port 8080 was already in use` | Arrêter l'autre instance de l'application. |
 
 ## Scénario de test
 
